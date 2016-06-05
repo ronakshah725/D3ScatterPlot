@@ -9,14 +9,25 @@ var customTimeFormat = d3.time.format.multi([
 
 var timeFormat =  d3.time.format("%Y-%m-%d %H:%M:%S");
 
-
 var x = d3.time.scale()
     .domain([timeFormat.parse("2014-10-30 00:00:00"), timeFormat.parse("2015-05-25 16:00:00")])
     .range([0, width]);
 
+var y = d3.scale.linear()
+    .domain([0,2000])
+    .range([height, 0]);
+
 var xAxis = d3.svg.axis()
     .scale(x)
-    .tickFormat(customTimeFormat);
+    .tickFormat(customTimeFormat)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(5);
+
+
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -24,7 +35,17 @@ var svg = d3.select("body").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)");
+
+
+
+
